@@ -247,6 +247,12 @@
                   <input class="form-control" type='number' min=0 v-model='concurrent_leader_movements' placeholder='(CC Default)'>
                 </div>
               </div>
+              <div class="form-row">
+                <label class="col-sm-6">Replication Throttle (bytes per second):</label>
+                <div class="col-sm-6">
+                  <input class="form-control" type='number' min=0 v-model='replication_throttle' placeholder='(CC Default)'>
+                </div>
+              </div>
             </div>
           </div>
           </template>
@@ -607,6 +613,7 @@ export default {
       excluded_topics: '', // Check CC Documentation
       concurrent_partition_movements_per_broker: null, // Check CC Documentation
       concurrent_leader_movements: null, // Check CC Documentation
+      replication_throttle: null, // Check CC Documentation
       throttle_removed_broker: false, // Check CC Documentation
       throttle_added_broker: false, // Check CC Documentation
       // workflow
@@ -748,6 +755,10 @@ export default {
         //  &concurrent_partition_movements_per_broker=[concurrency]
         //  &concurrent_leader_movements=[concurrency]
         //  &excluded_topics=[TOPICS]
+        //  &replication_throttle=[throttle]
+        if (vm.replication_throttle) {
+          params.replication_throttle = vm.replication_throttle
+        }
         return vm.$helpers.getURL('rebalance', params)
       }
       if (vm.actionName === 'rebalance_disk') {
